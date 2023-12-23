@@ -1,16 +1,44 @@
-# tmdbtask
 
-A new Flutter project.
+# Hi, I'm Ahmed Ayman! 👋
+
+
+# Macber Task
+
+Welcome to the TMDB Task App repository! This app is built using the latest version of Flutter and Dart.
+
+
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Clone the Repository
 
-A few resources to get you started if this is your first Flutter project:
+To get started, clone the repository to your local machine:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+```bash
+git clone https://github.com/Ahmad-Ayman/TMDB_TASK.git
+```
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### Install Dependencies
+Navigate to the project directory and run the following command to get the required dependencies:
+
+```bash
+cd TMDB_TASK
+flutter pub get
+```
+
+### Building and Running the App
+#### Build an APK
+Run the following command to build an APK for the app:
+
+```bash
+flutter build apk
+```
+
+#### Run the App
+You can run it on an emulator or a physical device. Using the following command:
+
+```bash
+flutter run
+```
+Make sure your emulator or device is connected and ready.
+
