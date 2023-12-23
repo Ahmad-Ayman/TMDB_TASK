@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:tmdbtask/core/networking/remote_response.dart';
+import 'package:tmdbtask/core/utils/helpers/enums.dart';
 
 import 'interceptors.dart';
 
@@ -66,14 +67,16 @@ class RemoteService {
         debugPrint("Post Method Status Code: ${response.statusCode}");
         debugPrint("Error: ${responseData['status_message']}");
         return RemoteResponse.failure(
-            responseData['status_message'], responseData['success']);
+            responseData['status_message'], responseData['success'],
+            PageStates.error);
       } else {
         debugPrint("Error log");
         debugPrint("Post Method Error");
         debugPrint("Post Method Status Code: ${response.statusCode}");
         debugPrint("Error: ${responseData['status_message']}");
         return RemoteResponse.failure(
-            responseData['status_message'], responseData['success']);
+            responseData['status_message'], responseData['success'],
+            PageStates.error);
       }
     } on DioException catch (e) {
       debugPrint("Error log");
@@ -82,7 +85,8 @@ class RemoteService {
       if (e.isNoInternet) {
         return const RemoteResponse.noConnection();
       } else {
-        return RemoteResponse.failure(e.message!, false);
+        return RemoteResponse.failure(e.message!, false,PageStates
+            .internetError);
       }
     }
   }
@@ -120,14 +124,16 @@ class RemoteService {
         debugPrint("Get Method Status Code: ${response.statusCode}");
         debugPrint("Error: ${responseData['status_message']}");
         return RemoteResponse.failure(
-            responseData['status_message'], responseData['success']);
+            responseData['status_message'], responseData['success'],
+            PageStates.error);
       } else {
         debugPrint("Error log");
         debugPrint("Get Method Error");
         debugPrint("Get Method Status Code: ${response.statusCode}");
         debugPrint("Error: ${responseData['status_message']}");
         return RemoteResponse.failure(
-            responseData['status_message'], responseData['success']);
+            responseData['status_message'], responseData['success'],
+            PageStates.error);
       }
     } on DioException catch (e) {
       debugPrint("Error log");
@@ -136,7 +142,7 @@ class RemoteService {
       if (e.isNoInternet) {
         return const RemoteResponse.noConnection();
       } else {
-        return RemoteResponse.failure(e.message!, false);
+        return RemoteResponse.failure(e.message!, false,PageStates.internetError);
       }
     }
   }

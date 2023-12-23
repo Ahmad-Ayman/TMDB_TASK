@@ -1,3 +1,4 @@
+import 'package:tmdbtask/core/utils/helpers/enums.dart';
 import 'package:tmdbtask/features/movie_details/data/models/movie_cast.dart';
 
 import '../../../../../../../../core/networking/api_constants.dart';
@@ -16,10 +17,12 @@ class MovieCastRemoteService {
 
     return remoteResponse.when(
       noConnection: () => const RemoteResponse.noConnection(),
-      failure: (message, success) => RemoteResponse.failure(message, success),
+      failure: (message, success,errorType) => RemoteResponse.failure(message,
+          success,errorType),
       data: (data) {
         if (data is! Map<String, dynamic>) {
-          return const RemoteResponse.failure('Unknown Error', false);
+          return const RemoteResponse.failure('Unknown Error', false,
+              PageStates.error);
         }
         final movieCast = MovieCastModel.fromJson(data);
 

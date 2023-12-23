@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:tmdbtask/core/utils/helpers/enums.dart';
 import 'package:tmdbtask/features/movie_details/data/models/movie_cast.dart';
 import 'package:tmdbtask/features/movie_details/domain/repositories/base_movie_cast_repository.dart';
 
@@ -22,12 +23,14 @@ class MovieCastRepository implements BaseMovieCastRepository {
           const ErrorMessageModel(
             status_message: 'No Internet Connection',
             success: false,
+            errorType: PageStates.internetError
           ),
         );
       },
-      failure: (message, success) {
+      failure: (message, success,errorType) {
         return left(
-            ErrorMessageModel(status_message: message, success: success));
+            ErrorMessageModel(status_message: message, success: success,
+                errorType: errorType));
       },
       data: (movieCast) {
         return right(movieCast);

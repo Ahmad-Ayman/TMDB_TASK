@@ -26,6 +26,7 @@ mixin _$ErrorMessageModel {
   String get status_message => throw _privateConstructorUsedError;
   @JsonKey(name: 'success')
   bool get success => throw _privateConstructorUsedError;
+  PageStates get errorType => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -42,7 +43,8 @@ abstract class $ErrorMessageModelCopyWith<$Res> {
   $Res call(
       {@JsonKey(name: 'status_code') int? status_code,
       @JsonKey(name: 'status_message') String status_message,
-      @JsonKey(name: 'success') bool success});
+      @JsonKey(name: 'success') bool success,
+      PageStates errorType});
 }
 
 /// @nodoc
@@ -61,6 +63,7 @@ class _$ErrorMessageModelCopyWithImpl<$Res, $Val extends ErrorMessageModel>
     Object? status_code = freezed,
     Object? status_message = null,
     Object? success = null,
+    Object? errorType = null,
   }) {
     return _then(_value.copyWith(
       status_code: freezed == status_code
@@ -75,6 +78,10 @@ class _$ErrorMessageModelCopyWithImpl<$Res, $Val extends ErrorMessageModel>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorType: null == errorType
+          ? _value.errorType
+          : errorType // ignore: cast_nullable_to_non_nullable
+              as PageStates,
     ) as $Val);
   }
 }
@@ -90,7 +97,8 @@ abstract class _$$ErrorMessageModelImplCopyWith<$Res>
   $Res call(
       {@JsonKey(name: 'status_code') int? status_code,
       @JsonKey(name: 'status_message') String status_message,
-      @JsonKey(name: 'success') bool success});
+      @JsonKey(name: 'success') bool success,
+      PageStates errorType});
 }
 
 /// @nodoc
@@ -107,6 +115,7 @@ class __$$ErrorMessageModelImplCopyWithImpl<$Res>
     Object? status_code = freezed,
     Object? status_message = null,
     Object? success = null,
+    Object? errorType = null,
   }) {
     return _then(_$ErrorMessageModelImpl(
       status_code: freezed == status_code
@@ -121,6 +130,10 @@ class __$$ErrorMessageModelImplCopyWithImpl<$Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      errorType: null == errorType
+          ? _value.errorType
+          : errorType // ignore: cast_nullable_to_non_nullable
+              as PageStates,
     ));
   }
 }
@@ -131,7 +144,8 @@ class _$ErrorMessageModelImpl implements _ErrorMessageModel {
   const _$ErrorMessageModelImpl(
       {@JsonKey(name: 'status_code') this.status_code,
       @JsonKey(name: 'status_message') required this.status_message,
-      @JsonKey(name: 'success') required this.success});
+      @JsonKey(name: 'success') required this.success,
+      required this.errorType});
 
   factory _$ErrorMessageModelImpl.fromJson(Map<String, dynamic> json) =>
       _$$ErrorMessageModelImplFromJson(json);
@@ -145,10 +159,12 @@ class _$ErrorMessageModelImpl implements _ErrorMessageModel {
   @override
   @JsonKey(name: 'success')
   final bool success;
+  @override
+  final PageStates errorType;
 
   @override
   String toString() {
-    return 'ErrorMessageModel(status_code: $status_code, status_message: $status_message, success: $success)';
+    return 'ErrorMessageModel(status_code: $status_code, status_message: $status_message, success: $success, errorType: $errorType)';
   }
 
   @override
@@ -160,13 +176,15 @@ class _$ErrorMessageModelImpl implements _ErrorMessageModel {
                 other.status_code == status_code) &&
             (identical(other.status_message, status_message) ||
                 other.status_message == status_message) &&
-            (identical(other.success, success) || other.success == success));
+            (identical(other.success, success) || other.success == success) &&
+            (identical(other.errorType, errorType) ||
+                other.errorType == errorType));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status_code, status_message, success);
+      Object.hash(runtimeType, status_code, status_message, success, errorType);
 
   @JsonKey(ignore: true)
   @override
@@ -185,10 +203,10 @@ class _$ErrorMessageModelImpl implements _ErrorMessageModel {
 
 abstract class _ErrorMessageModel implements ErrorMessageModel {
   const factory _ErrorMessageModel(
-          {@JsonKey(name: 'status_code') final int? status_code,
-          @JsonKey(name: 'status_message') required final String status_message,
-          @JsonKey(name: 'success') required final bool success}) =
-      _$ErrorMessageModelImpl;
+      {@JsonKey(name: 'status_code') final int? status_code,
+      @JsonKey(name: 'status_message') required final String status_message,
+      @JsonKey(name: 'success') required final bool success,
+      required final PageStates errorType}) = _$ErrorMessageModelImpl;
 
   factory _ErrorMessageModel.fromJson(Map<String, dynamic> json) =
       _$ErrorMessageModelImpl.fromJson;
@@ -202,6 +220,8 @@ abstract class _ErrorMessageModel implements ErrorMessageModel {
   @override
   @JsonKey(name: 'success')
   bool get success;
+  @override
+  PageStates get errorType;
   @override
   @JsonKey(ignore: true)
   _$$ErrorMessageModelImplCopyWith<_$ErrorMessageModelImpl> get copyWith =>

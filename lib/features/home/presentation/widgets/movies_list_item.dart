@@ -10,15 +10,18 @@ import '../../data/models/movies_model.dart';
 class CustomGridItem extends StatelessWidget {
   const CustomGridItem(
       {super.key,
-      required this.text,
-      required this.imageLink,
+
       required this.movie});
-  final String text;
-  final String imageLink;
+
+
   final MovieDataModel movie;
 
   @override
   Widget build(BuildContext context) {
+    String releaseYear = movie.releaseDate != null
+        ? '(${movie.releaseDate!.split('-')[0]})'
+        : '';
+
     return InkWell(
       onTap: () {
         context.pushNamed(
@@ -33,11 +36,12 @@ class CustomGridItem extends StatelessWidget {
               borderRadius: BorderRadius.circular(15),
               child: CustomImage(
                 isCircleImage: false,
-                imagePath: imageLink,
+                imagePath: movie.posterPath??'',
               )),
           8.ph,
           CustomText(
-            text: '$text',
+            text: '${movie.title ?? 'Movie Name '
+                    'Unavailable'} $releaseYear',
             fontSize: 12,
             fontColor: Colors.white,
             fontWeight: FontWeight.w700,

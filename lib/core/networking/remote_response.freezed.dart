@@ -19,21 +19,25 @@ mixin _$RemoteResponse<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noConnection,
-    required TResult Function(String message, bool success) failure,
+    required TResult Function(
+            String message, bool success, PageStates pageStates)
+        failure,
     required TResult Function(T data) data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noConnection,
-    TResult? Function(String message, bool success)? failure,
+    TResult? Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult? Function(T data)? data,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noConnection,
-    TResult Function(String message, bool success)? failure,
+    TResult Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult Function(T data)? data,
     required TResult orElse(),
   }) =>
@@ -119,7 +123,9 @@ class _$NoConnectionImpl<T> extends _NoConnection<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noConnection,
-    required TResult Function(String message, bool success) failure,
+    required TResult Function(
+            String message, bool success, PageStates pageStates)
+        failure,
     required TResult Function(T data) data,
   }) {
     return noConnection();
@@ -129,7 +135,8 @@ class _$NoConnectionImpl<T> extends _NoConnection<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noConnection,
-    TResult? Function(String message, bool success)? failure,
+    TResult? Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult? Function(T data)? data,
   }) {
     return noConnection?.call();
@@ -139,7 +146,8 @@ class _$NoConnectionImpl<T> extends _NoConnection<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noConnection,
-    TResult Function(String message, bool success)? failure,
+    TResult Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult Function(T data)? data,
     required TResult orElse(),
   }) {
@@ -195,7 +203,7 @@ abstract class _$$FailureImplCopyWith<T, $Res> {
           _$FailureImpl<T> value, $Res Function(_$FailureImpl<T>) then) =
       __$$FailureImplCopyWithImpl<T, $Res>;
   @useResult
-  $Res call({String message, bool success});
+  $Res call({String message, bool success, PageStates pageStates});
 }
 
 /// @nodoc
@@ -211,6 +219,7 @@ class __$$FailureImplCopyWithImpl<T, $Res>
   $Res call({
     Object? message = null,
     Object? success = null,
+    Object? pageStates = null,
   }) {
     return _then(_$FailureImpl<T>(
       null == message
@@ -221,6 +230,10 @@ class __$$FailureImplCopyWithImpl<T, $Res>
           ? _value.success
           : success // ignore: cast_nullable_to_non_nullable
               as bool,
+      null == pageStates
+          ? _value.pageStates
+          : pageStates // ignore: cast_nullable_to_non_nullable
+              as PageStates,
     ));
   }
 }
@@ -228,16 +241,18 @@ class __$$FailureImplCopyWithImpl<T, $Res>
 /// @nodoc
 
 class _$FailureImpl<T> extends _Failure<T> {
-  const _$FailureImpl(this.message, this.success) : super._();
+  const _$FailureImpl(this.message, this.success, this.pageStates) : super._();
 
   @override
   final String message;
   @override
   final bool success;
+  @override
+  final PageStates pageStates;
 
   @override
   String toString() {
-    return 'RemoteResponse<$T>.failure(message: $message, success: $success)';
+    return 'RemoteResponse<$T>.failure(message: $message, success: $success, pageStates: $pageStates)';
   }
 
   @override
@@ -246,11 +261,13 @@ class _$FailureImpl<T> extends _Failure<T> {
         (other.runtimeType == runtimeType &&
             other is _$FailureImpl<T> &&
             (identical(other.message, message) || other.message == message) &&
-            (identical(other.success, success) || other.success == success));
+            (identical(other.success, success) || other.success == success) &&
+            (identical(other.pageStates, pageStates) ||
+                other.pageStates == pageStates));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, message, success);
+  int get hashCode => Object.hash(runtimeType, message, success, pageStates);
 
   @JsonKey(ignore: true)
   @override
@@ -262,32 +279,36 @@ class _$FailureImpl<T> extends _Failure<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noConnection,
-    required TResult Function(String message, bool success) failure,
+    required TResult Function(
+            String message, bool success, PageStates pageStates)
+        failure,
     required TResult Function(T data) data,
   }) {
-    return failure(message, success);
+    return failure(message, success, pageStates);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noConnection,
-    TResult? Function(String message, bool success)? failure,
+    TResult? Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult? Function(T data)? data,
   }) {
-    return failure?.call(message, success);
+    return failure?.call(message, success, pageStates);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noConnection,
-    TResult Function(String message, bool success)? failure,
+    TResult Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult Function(T data)? data,
     required TResult orElse(),
   }) {
     if (failure != null) {
-      return failure(message, success);
+      return failure(message, success, pageStates);
     }
     return orElse();
   }
@@ -328,12 +349,13 @@ class _$FailureImpl<T> extends _Failure<T> {
 }
 
 abstract class _Failure<T> extends RemoteResponse<T> {
-  const factory _Failure(final String message, final bool success) =
-      _$FailureImpl<T>;
+  const factory _Failure(final String message, final bool success,
+      final PageStates pageStates) = _$FailureImpl<T>;
   const _Failure._() : super._();
 
   String get message;
   bool get success;
+  PageStates get pageStates;
   @JsonKey(ignore: true)
   _$$FailureImplCopyWith<T, _$FailureImpl<T>> get copyWith =>
       throw _privateConstructorUsedError;
@@ -405,7 +427,9 @@ class _$DataImpl<T> extends _Data<T> {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() noConnection,
-    required TResult Function(String message, bool success) failure,
+    required TResult Function(
+            String message, bool success, PageStates pageStates)
+        failure,
     required TResult Function(T data) data,
   }) {
     return data(this.data);
@@ -415,7 +439,8 @@ class _$DataImpl<T> extends _Data<T> {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? noConnection,
-    TResult? Function(String message, bool success)? failure,
+    TResult? Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult? Function(T data)? data,
   }) {
     return data?.call(this.data);
@@ -425,7 +450,8 @@ class _$DataImpl<T> extends _Data<T> {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? noConnection,
-    TResult Function(String message, bool success)? failure,
+    TResult Function(String message, bool success, PageStates pageStates)?
+        failure,
     TResult Function(T data)? data,
     required TResult orElse(),
   }) {

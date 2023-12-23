@@ -20,17 +20,25 @@ class CustomImage extends StatelessWidget {
             ),
             radius: 60,
           )
-        : CachedNetworkImage(
-            imageUrl: GeneralConstants.imageLink(image: imagePath),
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Center(
-              child:
-                  CircularProgressIndicator(value: downloadProgress.progress),
+        : AspectRatio(
+            aspectRatio: 2 / 3,
+            child: CachedNetworkImage(
+              imageUrl: GeneralConstants.imageLink(image: imagePath),
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  Center(
+                child:
+                    CircularProgressIndicator(value: downloadProgress.progress),
+              ),
+              errorWidget: (context, url, error) => AspectRatio(
+                aspectRatio: 2 / 3,
+                child: Image.asset(
+                  AssetsManager.noImageAsset,
+                  fit: BoxFit.cover,
+                ),
+              ),
+              fit: BoxFit.fill,
+              width: double.infinity,
             ),
-            errorWidget: (context, url, error) =>
-                Image.asset(AssetsManager.noImageAsset),
-            fit: BoxFit.fill,
-            width: double.infinity,
           );
   }
 }

@@ -1,4 +1,4 @@
-enum PageStates { error, noData }
+enum PageStates { error, noData, internetError }
 
 enum Routes {
   InitialRoute,

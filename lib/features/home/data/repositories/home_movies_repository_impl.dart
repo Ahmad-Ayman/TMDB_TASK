@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:tmdbtask/core/utils/helpers/enums.dart';
 import 'package:tmdbtask/features/home/data/models/movies_model.dart';
 import 'package:tmdbtask/features/home/domain/repositories/base_home_repository.dart';
 
@@ -22,12 +23,14 @@ class HomeRepository implements BaseHomeRepository {
           const ErrorMessageModel(
             status_message: 'No Internet Connection',
             success: false,
+            errorType: PageStates.internetError
           ),
         );
       },
-      failure: (message, success) {
+      failure: (message, success,errorType) {
         return left(
-            ErrorMessageModel(status_message: message, success: success));
+            ErrorMessageModel(status_message: message, success: success,
+                errorType: errorType));
       },
       data: (moviesData) {
         return right(moviesData);

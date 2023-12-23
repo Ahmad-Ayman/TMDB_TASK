@@ -12,6 +12,8 @@ String setImage(PageStates states) {
     case PageStates.noData:
       handlingImage = AssetsManager.noDataAsset;
       break;
+    case PageStates.internetError:
+      handlingImage = AssetsManager.noInternetAsset;
   }
   return handlingImage;
 }

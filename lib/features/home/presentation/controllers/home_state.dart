@@ -31,8 +31,8 @@ class HomeMoviesSuccessState extends HomeState {
 
 class HomeMoviesErrorState extends HomeState {
   final String msg;
-
-  const HomeMoviesErrorState(this.msg);
+  final PageStates errorType;
+  const HomeMoviesErrorState(this.msg,this.errorType);
 
   @override
   List<Object> get props => [msg];

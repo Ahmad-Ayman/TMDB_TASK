@@ -86,8 +86,10 @@ class HomeScreen extends StatelessWidget {
                     return const CustomLoadingIndicator();
                   }
                   if (state is HomeMoviesErrorState) {
+                    print('error is :${state.errorType.name}');
                     return ErrorWidgetPlaceHolder(
-                        errorState: PageStates.error, errorMsg: state.msg);
+                        errorState: state.errorType, errorMsg: state.msg,
+                      btnFunction: (){homeCubit.getHomeMovies();},);
                   }
                   List<MovieDataModel> movies = [];
                   bool isLoading = false;
@@ -99,32 +101,36 @@ class HomeScreen extends StatelessWidget {
                   } else if (state is HomeMoviesErrorState) {
                     movies = [];
                   }
-                  return GridView.builder(
-                    controller: _scrollController,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: calculateCrossAxisCount(context),
-                      childAspectRatio: 0.55,
-                      crossAxisSpacing: 16,
-                      mainAxisSpacing: 16,
-                    ),
-                    itemCount: movies.length + (isLoading ? 1 : 0),
-                    itemBuilder: (context, index) {
-                      if (index < movies.length) {
-                        return CustomGridItem(
-                          text:
-                              '${movies[index].title} (${movies[index].releaseDate!.split('-')[0]})',
-                          imageLink: movies[index].posterPath!,
-                          movie: movies[index],
-                        );
-                      } else {
-                        Timer(const Duration(milliseconds: 30), () {
-                          _scrollController.jumpTo(
-                              _scrollController.position.maxScrollExtent);
-                        });
 
-                        return const CustomLoadingIndicator();
-                      }
+                  return RefreshIndicator(
+                    color: Colors.white,
+                    onRefresh: ()async{
+                      homeCubit.getHomeMovies();
                     },
+                    child: GridView.builder(
+                      controller: _scrollController,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: calculateCrossAxisCount(context),
+                        childAspectRatio: 0.55,
+                        crossAxisSpacing: 16,
+                        mainAxisSpacing: 16,
+                      ),
+                      itemCount: movies.length + (isLoading ? 1 : 0),
+                      itemBuilder: (context, index) {
+                        if (index < movies.length) {
+                          return CustomGridItem(
+                            movie: movies[index],
+                          );
+                        } else {
+                          Timer(const Duration(milliseconds: 30), () {
+                            _scrollController.jumpTo(
+                                _scrollController.position.maxScrollExtent);
+                          });
+
+                          return const CustomLoadingIndicator();
+                        }
+                      },
+                    ),
                   );
                 },
               )),

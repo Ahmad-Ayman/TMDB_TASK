@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tmdbtask/core/utils/helpers/enums.dart';
 import 'package:tmdbtask/features/home/data/models/movies_model.dart';
 
 import '../../domain/use_cases/get_home_movies_use_case.dart';
@@ -31,7 +32,8 @@ class HomeCubit extends Cubit<HomeState> {
     final result = await getHomeMoviesUseCase.executeGetHomeMoviesProcess(
         page: currentPage);
     result.fold((failure) {
-      emit(HomeMoviesErrorState(failure.status_message));
+
+      emit(HomeMoviesErrorState(failure.status_message,failure.errorType));
     }, (data) {
       currentPage++;
       allMovies = (state as HomeMoviesLoadingState).oldMovies;
@@ -44,12 +46,20 @@ class HomeCubit extends Cubit<HomeState> {
   void searchMovies(String query) {
     emit(HomeMoviesLoadingState(allMovies, isFirstFetch: currentPage == 1));
 
-    final List<MovieDataModel> filteredMovies = allMovies
-        .where(
-            (movie) => movie.title!.toLowerCase().contains(query.toLowerCase()))
-        .toList();
-
-    emit(HomeMoviesSuccessState(filteredMovies));
+    if( query.isNotEmpty) {
+      final List<MovieDataModel> filteredMovies = allMovies
+          .where(
+              (movie) =>
+              movie.title!.toLowerCase().contains(query.toLowerCase()))
+          .toList();
+      if (filteredMovies.isNotEmpty) {
+        emit(HomeMoviesSuccessState(filteredMovies));
+      } else {
+        emit(const HomeMoviesErrorState('No Data Found', PageStates.noData));
+      }
+    }else{
+      emit(HomeMoviesSuccessState(allMovies));
+    }
   }
 
   @override

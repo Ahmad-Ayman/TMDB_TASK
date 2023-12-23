@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:tmdbtask/core/utils/components/custom_loading_indicator.dart';
 import 'package:tmdbtask/core/utils/components/custom_text.dart';
 import 'package:tmdbtask/core/utils/helpers/app_color.dart';
@@ -25,19 +26,32 @@ class MovieDetailsScreen extends StatelessWidget {
     return Scaffold(
       body: BlocProvider(
         create: (context) =>
-            MoviecastCubit(sl())..getMovieCast(movieId: movieData.id!),
+        MoviecastCubit(sl())
+          ..getMovieCast(movieId: movieData.id!),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
-                height: MediaQuery.sizeOf(context).height * 0.55,
-                width: MediaQuery.sizeOf(context).width,
+                height: MediaQuery
+                    .sizeOf(context)
+                    .height * 0.55,
+                width: MediaQuery
+                    .sizeOf(context)
+                    .width,
                 child: Stack(
                   children: [
-                    CustomImage(
-                      imagePath: movieData.posterPath!,
-                      isCircleImage: false,
+                    Row(
+                      children: [
+                        Expanded(
+                          child: InstaImageViewer(
+                            child: CustomImage(
+                              imagePath: movieData.posterPath ?? '',
+                              isCircleImage: false,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                     Positioned(
                       top: 42,
@@ -63,33 +77,38 @@ class MovieDetailsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: CustomText(
-                        text: movieData.title!,
+                        text: movieData.title ?? 'Movie Name '
+                            'Unavailable',
                         fontSize: 22,
                         fontWeight: FontWeight.w500,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    CustomText(
-                      text: movieData.voteAverage!
-                          .toStringAsPrecision(2)
-                          .toString(),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      fontColor: AppColor.greyColor,
-                    ),
-                    4.pw,
-                    const Icon(
-                      Icons.star,
-                      color: AppColor.greyColor,
-                      size: 25,
-                    ),
+                    if(movieData.voteAverage != null)...[
+                      CustomText(
+                        text: movieData
+                            .voteAverage!
+                            .toStringAsPrecision(2)
+                            .toString(),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontColor: AppColor.greyColor,
+                      ),
+                      4.pw,
+                      const Icon(
+                        Icons.star,
+                        color: AppColor.greyColor,
+                        size: 25,
+                      ),
+                    ],
                   ],
                 ),
               ),
+              if(movieData.releaseDate!=null)...[
               Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
+                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 4.0),
                 child: Row(
                   children: [
                     const CustomText(
@@ -117,6 +136,8 @@ class MovieDetailsScreen extends StatelessWidget {
                 ),
               ),
               const CustomDivider(),
+              ],
+              if(movieData.overview !=null)...[
               const Padding(
                 padding: EdgeInsets.only(right: 14.0, left: 20, top: 4.0),
                 child: CustomText(
@@ -143,6 +164,7 @@ class MovieDetailsScreen extends StatelessWidget {
                 ),
               ),
               const CustomDivider(),
+              ],
               const Padding(
                 padding: EdgeInsets.only(right: 14.0, left: 20, top: 4.0),
                 child: CustomText(
