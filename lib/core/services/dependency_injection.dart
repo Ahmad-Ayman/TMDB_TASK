@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:isar/isar.dart';
+import 'package:tmdbtask/core/utils/caching2/cache_manager.dart';
 import 'package:tmdbtask/features/home/data/data_sources/remote_data_source/home_movies_remote_service.dart';
 import 'package:tmdbtask/features/home/data/repositories/home_movies_repository_impl.dart';
 import 'package:tmdbtask/features/home/domain/repositories/base_home_repository.dart';
@@ -16,6 +18,8 @@ final sl = GetIt.instance;
 
 class ServicesLocator {
   init() {
+    // sl.registerSingleton<GenericCacheManager>(GenericCacheManager(Isar., sl()));
+
     /// Cubits
     sl.registerFactory(() => HomeCubit(sl()));
 
@@ -24,16 +28,22 @@ class ServicesLocator {
     sl.registerLazySingleton(() => GetMovieCastUseCase(sl()));
 
     ///Repository
-    sl.registerLazySingleton<BaseHomeRepository>(() => HomeRepository(sl()));
+    sl.registerLazySingleton<BaseHomeRepository>(() => HomeRepository(sl(),sl()));
     sl.registerLazySingleton<BaseMovieCastRepository>(
         () => MovieCastRepository(sl()));
 
     ///DataSource
     sl.registerLazySingleton<HomeMoviesRemoteService>(
-        () => HomeMoviesRemoteService(sl()));
+        () => HomeMoviesRemoteService(sl(),sl()));
+
+    sl.registerLazySingleton<HomeMoviesLocalService>(
+            () => HomeMoviesLocalService(sl()));
+
     sl.registerLazySingleton<MovieCastRemoteService>(
         () => MovieCastRemoteService(sl()));
 
     sl.registerFactory(() => RemoteService(Dio()));
+    sl.registerLazySingleton<AppDatabase>(() => AppDatabase());
+
   }
 }
